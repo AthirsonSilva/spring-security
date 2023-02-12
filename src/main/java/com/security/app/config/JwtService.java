@@ -18,14 +18,18 @@ import java.util.function.Function;
 public class JwtService {
     private static final String SECRET_KEY = System.getenv("SECRET_KEY");
 
+    // Extracts the username from the token
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
+    // Generates a token for the user
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 
+
+    // Extracts all the claims from the token
     public String generateToken(
             Map<String, Object> extractClaims,
             UserDetails userDetails
@@ -40,27 +44,32 @@ public class JwtService {
                 .compact();
     }
 
+    // Extracts the claims from the token
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
 
         return claimsResolver.apply(claims);
     }
 
+    // Verifies if the token is valid
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
 
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
+    // Verifies if the token is expired
     public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
+    // Extracts the expiration date from the token
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
     private Claims extractAllClaims(String token) {
+        // Parses the token and returns the claims
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSignInKey())
@@ -70,6 +79,7 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
+        // Decodes the secret key
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
 
         return Keys.hmacShaKeyFor(keyBytes);
