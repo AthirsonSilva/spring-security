@@ -1,15 +1,27 @@
 spring:
-    datasource:
-        url: jdbc:postgresql://localhost:5432/jwt-security
-        username: root
-        password: root
-        driver-class-name: org.postgresql.Driver
-    jpa:
-        hibernate:
-            ddl-auto: create-drop
-        show-sql: true
-        properties:
-            hibernate:
-                format_sql: true
-        database: postgresql
-        database-platform: org.hibernate.dialect.PostgreSQLDialect
+    data:
+        mongodb:
+            uri: mongodb://localhost:27017/spring-security
+
+springdoc:
+    api-docs:
+        enabled: true
+        groups:
+            enabled: true
+    swagger-ui:
+        enabled: true
+        path: /
+        tags-sorter: alpha
+        operations-sorter: method
+        display-request-duration: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+        enabled: true
+    info:
+        enabled: true
