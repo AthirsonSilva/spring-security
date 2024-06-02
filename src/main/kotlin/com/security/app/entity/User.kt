@@ -18,31 +18,17 @@ data class User(
     val enabled: Boolean,
 ) : UserDetails {
 
-    override fun getAuthorities(): Collection<GrantedAuthority?> {
-        return listOf(SimpleGrantedAuthority(role.name))
-    }
+    override fun getAuthorities(): Collection<GrantedAuthority?> = listOf(SimpleGrantedAuthority(role.name))
 
-    override fun getPassword(): String {
-        return passcode
-    }
+    override fun getPassword(): String = passcode
 
-    override fun getUsername(): String {
-        return email
-    }
+    override fun getUsername(): String = email
 
-    override fun isAccountNonExpired(): Boolean {
-        return enabled
-    }
+    override fun isAccountNonExpired(): Boolean = enabled
 
-    override fun isAccountNonLocked(): Boolean {
-        return enabled
-    }
+    override fun isAccountNonLocked(): Boolean = enabled
 
-    override fun isCredentialsNonExpired(): Boolean {
-        return enabled
-    }
+    override fun isCredentialsNonExpired(): Boolean = enabled
 
-    override fun isEnabled(): Boolean {
-        return enabled
-    }
+    override fun isEnabled(): Boolean = enabled
 }
