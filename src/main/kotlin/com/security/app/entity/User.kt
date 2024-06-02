@@ -1,5 +1,6 @@
 package com.security.app.entity
 
+import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -7,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails
 
 @Document
 data class User(
+    @Id
     val id: String? = null,
     val firstname: String,
     val lastname: String,
